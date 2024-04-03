@@ -473,6 +473,11 @@ class SR830(VisaInstrument):
 
         self.connect_message()
 
+    def set_offset(self, channel: str, percent: float, expand: int = 0):
+        index = "xyr".index(channel.lower()) + 1
+        expand = {0: 0, 10: 1, 100: 2}[expand]
+        self.write("OEXP {}, {}, {}".format(index, percent, expand))
+
     def _set_buffer_SR(self, SR):
         self.write('SRAT {}'.format(SR))
         self._buffer1_ready = False
